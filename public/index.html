@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI写真査定｜H SEARCH｜写真を送るだけで参考価格がわかる買取サービス</title>
+  <meta name="description" content="写真を送るだけでAIが参考価格を表示。時計・バッグ・ジュエリー・金・古銭など幅広く対応。株式会社H SEARCHの無料AI写真査定サービス。東京都古物商許可取得済み。正式査定は現物確認後にご案内します。">
+  <meta property="og:title" content="AI写真査定｜H SEARCH">
+  <meta property="og:description" content="写真を送るだけでAIが参考価格を表示。時計・バッグ・ジュエリー・金など対応。無料でお試しいただけます。">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS変数 ===== */
+    :root {
+      --black:    #1a1a1a;
+      --white:    #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #999999;
+      --gray-600: #555555;
+      --gold:     #c8a96e;
+      --line:     #06C755;
+      --font-serif: 'Noto Serif JP', serif;
+      --font-sans:  'Noto Sans JP', sans-serif;
+      --radius-card:   12px;
+      --radius-btn:     8px;
+      --radius-input:   6px;
+      --shadow-card: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    /* ===== リセット ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); font-size: 16px; line-height: 1.8; color: var(--black); background: var(--white); }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ===== 共通ユーティリティ ===== */
+    .section-inner { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+    .section-title { font-family: var(--font-serif); font-size: clamp(20px, 5vw, 30px); font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
+    .section-sub   { color: var(--gray-600); font-size: 15px; margin-bottom: 40px; line-height: 1.7; }
+
+    /* ===== ボタン共通 ===== */
+    .btn {
+      display: flex; align-items: center; justify-content: center;
+      height: 56px; width: 100%; max-width: 480px; margin: 0 auto;
+      font-family: var(--font-sans); font-size: 16px; font-weight: 700;
+      letter-spacing: 0.04em; border-radius: var(--radius-btn);
+      transition: opacity .2s, transform .1s; text-decoration: none;
+      min-height: 44px;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--black); color: var(--white); }
+    .btn-primary:hover { opacity: .85; }
+    .btn-line    { background: var(--line);  color: var(--white); gap: 8px; }
+    .btn-line:hover { opacity: .85; }
+    .btn-tel     { background: var(--white); color: var(--black); border: 2px solid var(--black); }
+    .btn-tel:hover { background: var(--gray-100); }
+    .btn-ghost   { background: transparent; color: var(--gray-600); border: 1px solid var(--gray-200); height: 48px; font-size: 15px; }
+    .btn-ghost:hover { background: var(--gray-100); }
+    .btn-sm { height: 48px; font-size: 15px; }
+
+    .btn-group { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+
+    /* ===== P2追加CSS ===== */
+    /* 3STEP */
+    #how-to-use { background: var(--white); }
+    .steps-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-bottom: 32px; }
+    .step-card { padding: 28px 24px; border: 1px solid var(--gray-200); margin-top: -1px; position: relative; }
+    .step-card:first-child { border-radius: var(--radius-card) var(--radius-card) 0 0; }
+    .step-card:last-child  { border-radius: 0 0 var(--radius-card) var(--radius-card); }
+    .step-num { font-size: 10px; letter-spacing: 0.2em; font-weight: 700; color: var(--gold); margin-bottom: 14px; display: block; }
+    .step-icon { font-size: 32px; margin-bottom: 10px; }
+    .step-card h3 { font-family: var(--font-serif); font-size: 18px; font-weight: 600; margin-bottom: 10px; line-height: 1.4; }
+    .step-card p { font-size: 14px; color: var(--gray-600); line-height: 1.8; }
+    .steps-note { font-size: 13px; color: var(--gray-400); text-align: center; margin-bottom: 28px; line-height: 1.7; }
+    @media (min-width: 768px) {
+      .steps-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .step-card { margin-top: 0; margin-left: -1px; border-radius: 0; }
+      .step-card:first-child { border-radius: var(--radius-card) 0 0 var(--radius-card); }
+      .step-card:last-child  { border-radius: 0 var(--radius-card) var(--radius-card) 0; }
+    }
+    /* 査定結果サンプル */
+    #result-sample { background: var(--gray-100); }
+    .result-sample-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-card); max-width: 600px; margin: 0 auto 28px; }
+    .sample-card-header { background: var(--black); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .sample-card-label { font-size: 12px; color: rgba(255,255,255,0.75); letter-spacing: 0.08em; }
+    .sample-card-badge { font-size: 11px; background: rgba(200,169,110,0.25); color: var(--gold); border: 1px solid rgba(200,169,110,0.4); padding: 3px 10px; border-radius: 12px; }
+    .sample-row { display: flex; align-items: baseline; padding: 13px 20px; border-bottom: 1px solid var(--gray-200); gap: 12px; }
+    .sample-row:last-child { border-bottom: none; }
+    .sample-key { font-size: 12px; color: var(--gray-400); white-space: nowrap; min-width: 100px; flex-shrink: 0; }
+    .sample-val { font-size: 14px; color: var(--black); line-height: 1.5; }
+    .sample-row.price-row { background: #fafafa; }
+    .sample-price-val { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--black); }
+    .sample-note { background: #fafafa; border-top: 1px solid var(--gray-200); padding: 14px 20px; font-size: 12px; color: var(--gray-400); line-height: 1.8; }
+    .sample-cta { padding: 20px; }
+    /* 中間CTA帯 */
+    .mid-cta { background: var(--black); padding: 48px 20px; text-align: center; }
+    .mid-cta-copy { font-family: var(--font-serif); font-size: clamp(16px, 4vw, 20px); color: var(--white); margin-bottom: 24px; line-height: 1.5; }
+    .mid-cta .btn-group { gap: 12px; }
+    .mid-cta .btn-primary { background: var(--white); color: var(--black); }
+    .mid-cta .btn-primary:hover { opacity: .9; }
+    .mid-cta .btn-tel { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.4); }
+    .mid-cta .btn-tel:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+    /* FAQ */
+    #faq { background: var(--white); }
+    .faq-list { margin-bottom: 8px; }
+    .faq-item { border-bottom: 1px solid var(--gray-200); }
+    .faq-item:first-child { border-top: 1px solid var(--gray-200); }
+    .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 4px; cursor: pointer; list-style: none; font-size: 15px; font-weight: 700; line-height: 1.5; color: var(--black); }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; font-size: 20px; font-weight: 300; color: var(--gold); flex-shrink: 0; transition: transform .25s; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-body { padding: 0 4px 20px; font-size: 14px; color: var(--gray-600); line-height: 1.9; }
+    .faq-body p { margin-bottom: 10px; }
+    .faq-body p:last-child { margin-bottom: 0; }
+    .faq-body ul { padding-left: 18px; }
+    .faq-body ul li { list-style: disc; margin-bottom: 4px; }
+    .faq-body a { text-decoration: underline; }
+    .faq-tel-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--black); margin-top: 8px; }
+    /* 最終CTA */
+    #final-cta { background: var(--gray-100); }
+    .final-cta-sub { font-size: 15px; color: var(--gray-600); margin-bottom: 36px; line-height: 1.7; text-align: center; }
+    .final-cta-grid { display: grid; grid-template-columns: 1fr; gap: 16px; max-width: 540px; margin: 0 auto 24px; }
+    .final-cta-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-card); padding: 24px 20px; text-align: center; transition: box-shadow .2s; }
+    .final-cta-card:hover { box-shadow: var(--shadow-card); }
+    .final-cta-card .cta-icon { font-size: 28px; margin-bottom: 10px; }
+    .final-cta-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: var(--gray-600); }
+    .final-cta-note { font-size: 13px; color: var(--gray-400); line-height: 1.8; text-align: center; }
+    @media (min-width: 600px) { .final-cta-grid { grid-template-columns: repeat(3, 1fr); } }
+
+
+    /* ===== ヘッダー ===== */
+    #site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white); border-bottom: 1px solid var(--gray-200);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+    .header-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 20px;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+    }
+    .header-logo img { height: 36px; width: auto; }
+    .header-nav { display: none; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .header-tel-link {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 700; color: var(--black);
+      white-space: nowrap;
+    }
+    .header-tel-link span.icon { font-size: 16px; }
+    .header-line-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: #aaa; color: var(--white);
+      padding: 8px 16px; border-radius: 6px;
+      font-size: 14px; font-weight: 700; white-space: nowrap;
+      min-height: 44px; cursor: default; position: relative;
+    }
+    .header-line-btn .badge-soon {
+      font-size: 9px; background: rgba(255,255,255,0.3);
+      padding: 1px 5px; border-radius: 3px; margin-left: 4px;
+      letter-spacing: 0.03em;
+    }
+    .hamburger {
+      display: flex; flex-direction: column; gap: 5px;
+      width: 44px; height: 44px; align-items: center; justify-content: center;
+      cursor: pointer; background: none; border: none;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--black); transition: all .3s; }
+
+    /* ドロワーメニュー */
+    #drawer {
+      display: none; position: fixed; inset: 64px 0 0 0;
+      background: var(--white); z-index: 99;
+      padding: 24px 20px; overflow-y: auto;
+    }
+    #drawer.open { display: block; }
+    .drawer-cta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .drawer-cta .btn { max-width: 100%; }
+    .drawer-nav { border-top: 1px solid var(--gray-200); }
+    .drawer-nav a {
+      display: block; padding: 16px 0;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 16px; color: var(--black);
+    }
+
+    @media (min-width: 768px) {
+      .header-nav {
+        display: flex; align-items: center; gap: 24px;
+        font-size: 14px;
+      }
+      .header-nav a { color: var(--black); transition: opacity .2s; }
+      .header-nav a:hover { opacity: .6; }
+      .hamburger { display: none; }
+    }
+
+    /* ===== ヒーロー ===== */
+    #hero {
+      background: var(--black);
+      min-height: 100svh; min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 80px 20px 60px;
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 30%, rgba(200,169,110,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 700px; margin: 0 auto; width: 100%; position: relative; }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 11px; letter-spacing: 0.2em; font-weight: 500;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: 5px 14px; border-radius: 2px; margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 7.5vw, 52px);
+      font-weight: 600; line-height: 1.35;
+      color: var(--white); margin-bottom: 24px;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 3.5vw, 17px); line-height: 1.8;
+      color: rgba(255,255,255,0.78); margin-bottom: 20px;
+    }
+    .hero-disclaimer {
+      font-size: 12px; color: rgba(255,255,255,0.5);
+      margin-bottom: 36px; line-height: 1.7;
+    }
+    .hero-cta { margin-bottom: 28px; }
+    .hero-cta .btn { max-width: 100%; }
+    .hero-cta .btn + .btn { margin-top: 12px; }
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+    .hero-badge {
+      font-size: 11px; color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 5px 12px; border-radius: 20px;
+      letter-spacing: 0.04em;
+    }
+
+    @media (min-width: 768px) {
+      #hero { padding: 100px 40px 80px; min-height: 90vh; }
+      .hero-cta { display: flex; gap: 12px; }
+      .hero-cta .btn { max-width: 260px; }
+      .hero-cta .btn + .btn { margin-top: 0; }
+    }
+
+    /* ===== 安心訴求帯 ===== */
+    #trust-band {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 14px 20px;
+    }
+    .trust-band-inner {
+      max-width: 860px; margin: 0 auto;
+      display: flex; flex-wrap: wrap;
+      justify-content: center; align-items: center;
+      gap: 6px 16px;
+    }
+    .trust-band-item {
+      font-size: 12px; color: rgba(255,255,255,0.72);
+      letter-spacing: 0.04em; white-space: nowrap;
+    }
+    .trust-band-sep { color: rgba(255,255,255,0.25); font-size: 11px; }
+
+    /* ===== 共通セクション余白 ===== */
+    section { padding: 64px 0; }
+
+    /* ===== 相場検索（既存） ===== */
+    .search-section { background: var(--gray-100); }
+    .search-section h2 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }
+    .search-section p { font-size: 14px; color: var(--gray-600); margin-bottom: 16px; }
+    .search-box { display: flex; gap: 8px; flex-wrap: wrap; }
+    .search-box input {
+      flex: 1; min-width: 200px; height: 48px;
+      border: 1px solid var(--gray-200); border-radius: var(--radius-input);
+      padding: 0 16px; font-size: 15px; font-family: var(--font-sans);
+    }
+    .search-box button {
+      height: 48px; padding: 0 24px;
+      background: var(--black); color: var(--white);
+      border-radius: var(--radius-input); font-size: 15px; font-weight: 700;
+      min-height: 44px;
+    }
+    .search-note { font-size: 12px; color: var(--gray-400); margin-top: 8px; }
+
+    /* ===== 選ばれる理由 ===== */
+    #reasons { background: var(--white); }
+    .reasons-grid {
+      display: grid; grid-template-columns: 1fr; gap: 24px;
+    }
+    .reason-card {
+      padding: 24px; border: 1px solid var(--gray-200);
+      border-radius: var(--radius-card);
+    }
+    .reason-icon { font-size: 28px; margin-bottom: 12px; }
+    .reason-card h3 { font-family: var(--font-serif); font-size: 16px; margin-bottom: 8px; }
+    .reason-card p { font-size: 14px; color: var(--gray-600); line-height: 1.8; }
+    @media (min-width: 640px) {
+      .reasons-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===== 買取品目 ===== */
+    #items { background: var(--gray-100); }
+    .items-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    }
+    .item-card {
+      background: var(--white); border-radius: var(--radius-card);
+      overflow: hidden; box-shadow: var(--shadow-card);
+      transition: transform .2s;
+    }
+    .item-card:hover { transform: translateY(-2px); }
+    .item-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .item-card-emoji {
+      width: 100%; aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gray-100); font-size: 40px;
+    }
+    .item-card h3 {
+      font-size: 13px; font-weight: 700;
+      padding: 10px 12px; line-height: 1.4;
+    }
+    @media (min-width: 640px) {
+      .items-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 900px) {
+      .items-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ===== 価格免責ボックス（品目ページ用・トップでも使用）===== */
+    .price-disclaimer-box {
+      background: #fafafa;
+      border-left: 4px solid var(--gold);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0 24px;
+      font-size: 14px; line-height: 1.8; color: var(--gray-600);
+    }
+    .price-disclaimer-box strong { color: var(--black); }
+
+    /* ===== ブランド一覧 ===== */
+    #brands { background: var(--white); }
+    .brand-category { margin-bottom: 32px; }
+    .brand-category h3 { font-family: var(--font-serif); font-size: 16px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--gray-200); }
+    .brand-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .brand-list a {
+      font-size: 13px; padding: 6px 14px;
+      border: 1px solid var(--gray-200); border-radius: 4px;
+      transition: background .2s;
+    }
+    .brand-list a:hover { background: var(--gray-100); }
+
+    /* ===== 注意事項 ===== */
+    #caution { background: var(--gray-100); }
+    .caution-title { color: var(--black); }
+    .caution-box {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 var(--radius-card) var(--radius-card) 0;
+      padding: 4px 0;
+    }
+    .caution-item {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 14px; line-height: 1.8;
+    }
+    .caution-item:last-child { border-bottom: none; }
+    .caution-item strong { display: block; margin-bottom: 4px; font-weight: 700; color: var(--black); }
+    .caution-item a { color: var(--black); text-decoration: underline; }
+
+    /* ===== 査定フォーム ===== */
+    #assessment { background: var(--white); }
+    .assessment-form {
+      background: var(--gray-100);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+    .upload-zone {
+      border: 2px dashed var(--gray-200);
+      border-radius: var(--radius-card);
+      background: var(--white);
+      cursor: pointer; margin-bottom: 24px;
+      transition: border-color .2s;
+    }
+    .upload-zone:hover { border-color: var(--gold); }
+    .upload-label {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 32px 20px; gap: 10px; cursor: pointer;
+    }
+    .upload-icon { font-size: 40px; }
+    .upload-text-main {
+      font-size: 16px; font-weight: 700; text-align: center; line-height: 1.5;
+    }
+    .upload-text-sub { font-size: 12px; color: var(--gray-400); text-align: center; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block; font-size: 14px; font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .required { color: #c0392b; font-size: 11px; margin-left: 4px; }
+    .optional  { color: var(--gray-400); font-size: 11px; margin-left: 4px; }
+    .form-group input,
+    .form-group textarea {
+      width: 100%; padding: 12px 14px;
+      border: 1px solid var(--gray-200); border-radius: var(--radius-input);
+      font-size: 16px; font-family: var(--font-sans);
+      background: var(--white);
+      transition: border-color .2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { outline: none; border-color: var(--black); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-agree {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; margin-bottom: 24px; line-height: 1.6;
+    }
+    .form-agree input { width: 18px; height: 18px; margin-top: 3px; flex-shrink: 0; }
+    .form-agree a { text-decoration: underline; }
+    .form-submit-note {
+      font-size: 12px; color: var(--gray-400);
+      text-align: center; margin-top: 12px; line-height: 1.7;
+    }
+
+    /* ===== 会社概要 ===== */
+    #about { background: var(--gray-100); }
+    .about-table { width: 100%; border-collapse: collapse; }
+    .about-table th,
+    .about-table td {
+      padding: 12px 0; border-bottom: 1px solid var(--gray-200);
+      font-size: 14px; line-height: 1.8; vertical-align: top;
+    }
+    .about-table th { width: 120px; font-weight: 700; color: var(--gray-600); }
+
+    /* ===== お問合せ ===== */
+    #contact { background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .contact-card {
+      padding: 24px; border: 1px solid var(--gray-200);
+      border-radius: var(--radius-card); text-align: center;
+    }
+    .contact-card .icon { font-size: 32px; margin-bottom: 12px; }
+    .contact-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .contact-tel-link {
+      display: block; font-size: 24px; font-weight: 700;
+      color: var(--black); margin: 8px 0;
+    }
+    .contact-hours { font-size: 13px; color: var(--gray-400); }
+    @media (min-width: 640px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ===== フッター ===== */
+    #site-footer { background: var(--black); color: var(--white); padding: 56px 0 32px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .footer-brand { margin-bottom: 40px; }
+    .footer-brand img { height: 32px; width: auto; margin-bottom: 12px; filter: brightness(0) invert(1); }
+    .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr; gap: 32px;
+      margin-bottom: 40px;
+    }
+    .footer-nav-col h4 {
+      font-size: 11px; letter-spacing: 0.15em; font-weight: 500;
+      color: rgba(255,255,255,0.4); margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .footer-nav-col ul { display: flex; flex-direction: column; gap: 10px; }
+    .footer-nav-col a {
+      font-size: 14px; color: rgba(255,255,255,0.7);
+      transition: color .2s;
+    }
+    .footer-nav-col a:hover { color: var(--white); }
+    .footer-company {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px; margin-bottom: 24px;
+    }
+    .footer-company p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 2; }
+    .footer-company .company-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .footer-disclaimer {
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px; padding: 16px 20px;
+      font-size: 12px; color: rgba(255,255,255,0.45);
+      line-height: 1.8; margin-bottom: 24px;
+    }
+    .footer-bottom {
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      align-items: center; gap: 12px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+    }
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.35); }
+    .footer-legal-links { display: flex; flex-wrap: wrap; gap: 16px; }
+    .footer-legal-links a { font-size: 12px; color: rgba(255,255,255,0.45); }
+    .footer-legal-links a:hover { color: var(--white); }
+    @media (min-width: 768px) {
+      .footer-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ===== スクロールバック ===== */
+    .back-to-top {
+      position: fixed; bottom: 24px; right: 20px;
+      width: 44px; height: 44px;
+      background: var(--black); color: var(--white);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; opacity: 0; pointer-events: none;
+      transition: opacity .3s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 50;
+    }
+    .back-to-top.show { opacity: 1; pointer-events: auto; }
+
+    /* ===== AI査定結果 CSS ===== */
+
+    /* フィールドエラー */
+    .field-error {
+      font-size: 13px; color: #c0392b;
+      margin-top: 6px; padding: 6px 10px;
+      background: #fdf0ef; border-radius: 4px;
+      border-left: 3px solid #c0392b;
+    }
+    .input-error {
+      border-color: #c0392b !important;
+      background: #fdf8f8 !important;
+    }
+
+    /* エラーバナー */
+    .form-error-banner {
+      background: #fdf0ef; border: 1px solid #c0392b;
+      border-left: 4px solid #c0392b; border-radius: 6px;
+      padding: 14px 18px; margin-bottom: 20px;
+      font-size: 14px; color: #c0392b; line-height: 1.7;
+    }
+
+    /* ローディングオーバーレイ */
+    .loading-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(26,26,26,0.7);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .loading-box {
+      background: var(--white); border-radius: 16px;
+      padding: 40px 32px; text-align: center;
+      max-width: 300px; width: 90%; box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+    .loading-ring {
+      width: 48px; height: 48px; margin: 0 auto 20px;
+      border: 3px solid var(--gray-200);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--black);
+    }
+    .loading-sub {
+      font-size: 13px; color: var(--gray-400); line-height: 1.7;
+    }
+
+    /* スピナー（ボタン内） */
+    .spinner {
+      display: inline-block; width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    /* 撮影のコツ */
+    .shooting-tips {
+      background: var(--gray-100); border-radius: var(--radius-card);
+      padding: 12px 16px; margin-bottom: 20px; font-size: 13px;
+    }
+    .shooting-tips summary {
+      cursor: pointer; font-weight: 700; color: var(--gray-600);
+      list-style: none;
+    }
+    .shooting-tips summary::-webkit-details-marker { display: none; }
+    .shooting-tips ul {
+      padding: 12px 0 4px 18px; list-style: disc;
+      display: flex; flex-direction: column; gap: 6px;
+      color: var(--gray-600); line-height: 1.7;
+    }
+    .shooting-tips ul li { list-style: disc; }
+
+    /* 結果セクション */
+    .result-section { background: var(--gray-100); padding: 64px 0; }
+    .result-section[hidden] { display: none; }
+
+    .result-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
+    }
+    .result-eyebrow {
+      font-size: 11px; letter-spacing: 0.2em; font-weight: 700;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .result-title {
+      font-family: var(--font-serif); font-size: clamp(20px, 5vw, 28px);
+      font-weight: 600; line-height: 1.3; color: var(--black);
+    }
+    .result-confidence-wrap { text-align: right; flex-shrink: 0; }
+    .result-confidence-label {
+      display: block; font-size: 11px; color: var(--gray-400); margin-bottom: 4px;
+    }
+    .result-confidence-badge {
+      display: inline-block; font-size: 12px; font-weight: 700;
+      padding: 4px 14px; border-radius: 20px;
+    }
+    .conf-high { background: rgba(200,169,110,0.15); color: #8a6d20; border: 1px solid rgba(200,169,110,0.4); }
+    .conf-mid  { background: rgba(150,150,150,0.12); color: var(--gray-600); border: 1px solid var(--gray-200); }
+    .conf-low  { background: rgba(192,57,43,0.08); color: #a0392b; border: 1px solid rgba(192,57,43,0.2); }
+
+    /* 価格ハイライト */
+    .result-price-highlight {
+      background: var(--black); border-radius: var(--radius-card);
+      padding: 28px 24px; margin-bottom: 20px; text-align: center;
+    }
+    .result-price-label {
+      font-size: 12px; letter-spacing: 0.1em; color: rgba(255,255,255,0.55);
+      margin-bottom: 10px;
+    }
+    .result-price-value {
+      font-family: var(--font-serif); font-size: clamp(28px, 7vw, 44px);
+      font-weight: 600; color: var(--white); line-height: 1.2; margin-bottom: 12px;
+    }
+    .result-price-note {
+      font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.7;
+    }
+
+    /* 情報カード */
+    .result-info-card {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: var(--radius-card); padding: 20px 24px; margin-bottom: 16px;
+    }
+    .result-card-title {
+      font-family: var(--font-serif); font-size: 15px; font-weight: 600;
+      margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .result-info-grid { display: flex; flex-direction: column; }
+    .result-info-row {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--gray-200);
+    }
+    .result-info-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .result-info-key {
+      font-size: 12px; color: var(--gray-400); white-space: nowrap;
+      min-width: 88px; flex-shrink: 0;
+    }
+    .result-info-val { font-size: 14px; color: var(--black); line-height: 1.6; }
+    .result-reasoning { font-size: 14px; color: var(--gray-600); line-height: 1.9; margin: 0; }
+    .result-factors {
+      padding-left: 18px; display: flex; flex-direction: column; gap: 8px; margin: 0;
+    }
+    .result-factors li { font-size: 14px; color: var(--gray-600); list-style: disc; line-height: 1.7; }
+
+    /* 免責ボックス */
+    .result-disclaimer-box {
+      background: #fafafa; border: 1px solid var(--gray-200);
+      border-left: 4px solid var(--gold); border-radius: 0 var(--radius-card) var(--radius-card) 0;
+      padding: 18px 20px; margin-bottom: 28px;
+    }
+    .result-disclaimer-title {
+      font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 10px;
+    }
+    .result-disclaimer-list {
+      padding-left: 18px; display: flex; flex-direction: column; gap: 6px; margin: 0;
+    }
+    .result-disclaimer-list li { font-size: 13px; color: var(--gray-600); list-style: disc; line-height: 1.7; }
+
+    /* 本査定CTA */
+    .result-cta-area { text-align: center; }
+    .result-cta-title {
+      font-family: var(--font-serif); font-size: 18px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .result-cta-sub {
+      font-size: 14px; color: var(--gray-600); margin-bottom: 24px; line-height: 1.7;
+    }
+    .result-cta-buttons { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-bottom: 14px; }
+    .result-cta-buttons .btn { max-width: 100%; }
+    .result-cta-note { font-size: 12px; color: var(--gray-400); line-height: 1.8; }
+    .result-fallback-note { font-size: 13px; color: var(--gold); margin-top: 10px; line-height: 1.7; }
+
+  </style>
+</head>
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header id="site-header">
+  <div class="header-inner">
+    <a href="/" class="header-logo">
+      <img src="https://hsearchreuse-dwkuhjum.manus.space/images/hsearch-logo.webp" alt="H SEARCH">
+    </a>
+
+    <nav class="header-nav">
+      <a href="/">TOP</a>
+      <a href="#assessment">AI査定</a>
+      <a href="#items">買取品目</a>
+      <a href="#faq">よくある質問</a>
+      <a href="#about">会社概要</a>
+      <a href="#contact">お問合せ</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="tel:03-6205-5608" class="header-tel-link">
+        <span class="icon">📞</span>
+        <span class="num">03-6205-5608</span>
+      </a>
+      <!-- LINE：URL確定後に href="[LINE公式URL]" class="header-line-btn" style="background:var(--line);" に差し替え。現在は非表示 -->
+      <!-- <span class="header-line-btn">LINE査定</span> -->
+      <button class="hamburger" id="hamburger-btn" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ドロワーメニュー（スマホ） -->
+<div id="drawer">
+  <div class="drawer-cta">
+    <a href="tel:03-6205-5608" class="btn btn-tel">📞 今すぐ電話で相談（03-6205-5608）</a>
+    <!-- LINE：URL確定後に a href="[LINE公式URL]" class="btn btn-line" に差し替え。現在は非表示 -->
+  </div>
+  <nav class="drawer-nav">
+    <a href="/">TOP</a>
+    <a href="#assessment">AI査定（無料）</a>
+    <a href="#items">買取品目</a>
+    <a href="#faq">よくある質問</a>
+    <a href="#about">会社概要</a>
+    <a href="#contact">お問合せ</a>
+    <a href="/privacy-policy">プライバシーポリシー</a>
+    <a href="/terms">利用規約</a>
+  </nav>
+</div>
+
+<!-- ===== ヒーロー（P1：全面差し替え）===== -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">AI写真査定サービス｜無料</p>
+    <h1 class="hero-title">
+      写真を送るだけで、<br>
+      参考価格がわかります。
+    </h1>
+    <p class="hero-sub">
+      AIが商品を分析し、参考価格の目安をその場で表示。<br>
+      時計・バッグ・ジュエリー・金・古銭など幅広く対応。
+    </p>
+    <p class="hero-disclaimer">
+      ※表示価格はAIによる参考価格です。正式な買取価格は現物確認後にご案内します。
+    </p>
+    <div class="hero-cta btn-group">
+      <a href="#assessment" class="btn btn-primary">写真でAI査定をはじめる（無料）</a>
+      <!-- LINE開通後に btn-line ボタンに差し替え。現在は電話ボタンで代替 -->
+      <a href="tel:03-6205-5608" class="btn btn-tel" style="border-color:rgba(255,255,255,0.5); color:var(--white); background:transparent;">
+        📞 電話でご相談する（03-6205-5608）
+      </a>
+    </div>
+    <div class="hero-badges">
+      <span class="hero-badge">📋 東京都古物商許可</span>
+      <span class="hero-badge">🔒 画像は査定目的のみ使用</span>
+      <span class="hero-badge">✅ 無理な営業一切なし</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 安心訴求帯（P1：新規追加）===== -->
+<div id="trust-band">
+  <div class="trust-band-inner">
+    <span class="trust-band-item">写真を送るだけ</span>
+    <span class="trust-band-sep">|</span>
+    <span class="trust-band-item">AIが参考価格を表示</span>
+    <span class="trust-band-sep">|</span>
+    <span class="trust-band-item">正式査定は現物確認後</span>
+    <span class="trust-band-sep">|</span>
+    <span class="trust-band-item">無料・無理な営業なし</span>
+  </div>
+</div>
+
+
+<!-- ===== 3STEP（P2：新規追加）===== -->
+<section id="how-to-use">
+  <div class="section-inner">
+    <h2 class="section-title">かんたん3ステップ</h2>
+    <p class="section-sub">スマホで1分。難しい操作は一切ありません。</p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-num">STEP 1</span>
+        <div class="step-icon">📷</div>
+        <h3>写真を選ぶ</h3>
+        <p>
+          スマホのカメラロールから商品の写真を選んでください。
+          複数枚まとめて送ることができます。
+          撮影のコツも画面上でご確認いただけます。
+        </p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">STEP 2</span>
+        <div class="step-icon">🤖</div>
+        <h3>AIが分析</h3>
+        <p>
+          AIが画像からカテゴリ・ブランド候補・状態を自動で推定します。
+          通常、数十秒〜1分程度で結果が表示されます。
+        </p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">STEP 3</span>
+        <div class="step-icon">💴</div>
+        <h3>参考価格を確認</h3>
+        <p>
+          概算の参考価格帯をその場で表示します。
+          そのままフォームまたはお電話から、正式査定をご依頼いただけます。
+        </p>
+      </div>
+    </div>
+
+    <p class="steps-note">
+      ※表示される価格はAIによる参考価格（概算）です。正式な買取価格は現物確認後に決定します。
+    </p>
+    <div class="btn-group">
+      <a href="#assessment" class="btn btn-primary">さっそく写真を送ってみる（無料）</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 相場検索（未実装のため一時非表示）===== -->
+<!--
+<section class="search-section">
+  <div class="section-inner">
+    <h2>海外オークション相場検索</h2>
+    <p>Stacks Bowersの中国コイン落札価格を検索（USD→JPY自動変換）</p>
+    <div class="search-box">
+      <input type="text" placeholder="例: China, Yuan, Dollar" id="coin-search-input">
+      <button onclick="searchCoins()">検索</button>
+    </div>
+    <p class="search-note">※検索結果はStacks Bowers社の公開データを参照しています</p>
+  </div>
+</section>
+
+<section class="search-section" style="background: var(--white);">
+  <div class="section-inner">
+    <h2>オークション落札相場検索</h2>
+    <p>Yahoo!オークションの落札相場をリアルタイムで検索できます</p>
+    <div class="search-box">
+      <input type="text" placeholder="検索したい商品名やキーワードを入力" id="yahoo-search-input">
+      <button onclick="searchYahoo()">検索</button>
+    </div>
+  </div>
+</section>
+-->
+
+<!-- ===== 選ばれる理由 ===== -->
+<section id="reasons">
+  <div class="section-inner">
+    <h2 class="section-title">H SEARCHが選ばれる理由</h2>
+    <p class="section-sub">安心してご利用いただくための、6つのポイントをご紹介します。</p>
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <div class="reason-icon">📊</div>
+        <h3>市場相場に基づく適正な参考価格</h3>
+        <p>オークション落札実績・市場相場をもとに、根拠のある参考価格をご提示します。「なぜこの価格なのか」をわかりやすくお伝えします。</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">🏛️</div>
+        <h3>東京都古物商許可を取得した信頼の事業者</h3>
+        <p>東京都公安委員会の古物商許可を正式に取得しています。安心してお品物をお預けいただけます。（許可証番号：第304372421862号）</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">⚡</div>
+        <h3>スピーディーかつ丁寧な対応</h3>
+        <p>査定依頼から回答まで、迅速かつ丁寧に対応いたします。まずはAI査定でおおよその目安をご確認いただけます。</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">🔒</div>
+        <h3>画像・個人情報は査定目的のみに使用</h3>
+        <p>アップロードいただいた画像・お名前・連絡先は、査定以外の目的には一切使用しません。不要になった画像データは一定期間後に削除します。</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">🤝</div>
+        <h3>無理な営業は一切いたしません</h3>
+        <p>参考価格の確認だけでも歓迎です。売却するかどうかは、お客様のご判断にお任せします。</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">📦</div>
+        <h3>幅広いジャンルに対応</h3>
+        <p>時計・バッグ・ジュエリー・金・古銭・切手・着物など、多種多様なお品物に対応しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 査定結果サンプル（P2：新規追加）===== -->
+<section id="result-sample">
+  <div class="section-inner">
+    <h2 class="section-title">査定結果はこのように表示されます</h2>
+    <p class="section-sub">
+      AIが商品情報を推定し、参考価格帯をわかりやすく表示します。<br>
+      ご利用前に、表示イメージをご確認ください。
+    </p>
+
+    <div class="result-sample-card">
+      <div class="sample-card-header">
+        <span class="sample-card-label">AI参考査定結果（表示サンプル）</span>
+        <span class="sample-card-badge">推定精度：中〜高</span>
+      </div>
+      <div class="sample-card-body">
+        <div class="sample-row">
+          <span class="sample-key">商品カテゴリ</span>
+          <span class="sample-val">ブランド時計</span>
+        </div>
+        <div class="sample-row">
+          <span class="sample-key">ブランド候補</span>
+          <span class="sample-val">ロレックス（画像上の推定）</span>
+        </div>
+        <div class="sample-row">
+          <span class="sample-key">モデル候補</span>
+          <span class="sample-val">デイトジャスト系（推定）</span>
+        </div>
+        <div class="sample-row">
+          <span class="sample-key">素材推定</span>
+          <span class="sample-val">ステンレス・金コンビ（推定）</span>
+        </div>
+        <div class="sample-row">
+          <span class="sample-key">状態評価</span>
+          <span class="sample-val">良好〜使用感あり（画像上）</span>
+        </div>
+        <div class="sample-row price-row">
+          <span class="sample-key">参考価格帯</span>
+          <span class="sample-price-val">¥600,000 〜 ¥900,000</span>
+        </div>
+      </div>
+      <div class="sample-note">
+        ※このカードはサンプル表示です。実際の査定結果は商品・状態により異なります。<br>
+        ※表示価格はAIによる参考価格（概算）であり、正式な買取価格ではありません。<br>
+        ※真贋・状態・付属品・市場相場の変動により、正式査定額は大きく異なる場合があります。
+      </div>
+      <div class="sample-cta">
+        <a href="#assessment" class="btn btn-primary" style="max-width:100%;">自分のお品物を査定してみる（無料）</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 中間CTA帯①（P2：新規追加）===== -->
+<div class="mid-cta">
+  <p class="mid-cta-copy">まずは参考価格の目安だけ確認したい方はこちら</p>
+  <div class="btn-group">
+    <a href="#assessment" class="btn btn-primary">写真でAI査定をはじめる（無料）</a>
+    <a href="tel:03-6205-5608" class="btn btn-tel">📞 電話でご相談する</a>
+  </div>
+</div>
+
+<!-- ===== 買取品目（P1：見出し・注記を修正）===== -->
+<section id="items">
+  <div class="section-inner">
+    <h2 class="section-title">このようなお品物に対応しています</h2>
+    <p class="section-sub">以下は対応ジャンルの一例です。掲載以外のお品物もお気軽にご相談ください。</p>
+
+    <div class="price-disclaimer-box">
+      <strong>⚠️ 各カテゴリページの価格は参考価格（概算）です。</strong>
+      正式な買取価格は現物確認後に決定します。商品の状態・真贋・付属品の有無・市場相場等により、表示価格と異なる場合があります。買取を保証するものではありません。
+    </div>
+
+    <div class="items-grid">
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/gold" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/gold-platinum_f7b8f463.jpg" alt="金・プラチナの参考買取価格" loading="lazy">
+        <h3>金・プラチナ</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/coin" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/gold-coins_70965032.jpg" alt="金貨・銀貨の参考買取価格" loading="lazy">
+        <h3>金貨・銀貨</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/oban-koban" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/oban-koban_f0f88197.jpg" alt="大判・小判の参考買取価格" loading="lazy">
+        <h3>大判・小判</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/old-coin" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/old-coins_9e429b0f.jpg" alt="硬貨・紙幣・古銭の参考買取価格" loading="lazy">
+        <h3>硬貨・紙幣・古銭</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/medal" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/medals_2e0c46b1.jpg" alt="メダルの参考買取価格" loading="lazy">
+        <h3>メダル</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/watches_a43c775a.jpg" alt="ブランド時計の参考買取価格" loading="lazy">
+        <h3>ブランド時計</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/jewelry_ed279bb7.jpg" alt="宝石・ジュエリーの参考買取価格" loading="lazy">
+        <h3>宝石・ジュエリー</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/pearl" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/pearls_d3a34f14.jpg" alt="真珠・パールの参考買取価格" loading="lazy">
+        <h3>真珠・パール</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/brand-items_7af7916b.png" alt="ブランド品の参考買取価格" loading="lazy">
+        <h3>ブランド品</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/apparel" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/apparel_66135123.png" alt="アパレルの参考買取価格" loading="lazy">
+        <h3>アパレル</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/stamp" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/stamps_fe62e25e.jpg" alt="切手の参考買取価格" loading="lazy">
+        <h3>切手</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/antique" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/antiques_115e417d.jpg" alt="骨董品の参考買取価格" loading="lazy">
+        <h3>骨董品</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/kimono" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/kimono_be28c5a8.jpg" alt="着物・帯の参考買取価格" loading="lazy">
+        <h3>着物・帯</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/kouboku" class="item-card">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217134115/DWKUhJuM3bq38F28ZV8hgX/agarwood_4b368160.jpg" alt="香木の参考買取価格" loading="lazy">
+        <h3>香木</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/liquor" class="item-card">
+        <div class="item-card-emoji">🍾</div>
+        <h3>お酒</h3>
+      </a>
+      <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/camera" class="item-card">
+        <div class="item-card-emoji">📷</div>
+        <h3>カメラ</h3>
+      </a>
+    </div>
+    <p style="font-size:13px; color:var(--gray-400); margin-top:16px; text-align:center;">
+      ※対応可否・AI推定精度はジャンルや商品状態により異なります。まずはお気軽にお送りください。
+    </p>
+  </div>
+</section>
+
+<!-- ===== ブランド一覧 ===== -->
+<section id="brands" style="background: var(--gray-100);">
+  <div class="section-inner">
+    <h2 class="section-title">エイチサーチの取り扱いブランド</h2>
+    <p class="section-sub">エイチサーチでは多種多様なブランドを取り扱っております。ここではその一部をご紹介します。</p>
+
+    <div class="brand-category">
+      <h3>高級時計ブランド</h3>
+      <div class="brand-list">
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">ロレックス</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">パテック フィリップ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">オーデマ ピゲ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">ヴァシュロン コンスタンタン</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">A.ランゲ＆ゾーネ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">オメガ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">IWC</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/watch">タグホイヤー</a>
+      </div>
+    </div>
+    <div class="brand-category">
+      <h3>ファッションブランド</h3>
+      <div class="brand-list">
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">エルメス</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">ルイ・ヴィトン</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">シャネル</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">ディオール</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">セリーヌ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">フェンディ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">グッチ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/brand">プラダ</a>
+      </div>
+    </div>
+    <div class="brand-category">
+      <h3>ジュエリーブランド</h3>
+      <div class="brand-list">
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry">カルティエ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry">ハリー・ウィンストン</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry">ブルガリ</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry">ティファニー</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry">ヴァンクリーフ＆アーペル</a>
+        <a href="https://hsearchreuse-dwkuhjum.manus.space/purchase/jewelry">ショーメ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== FAQ（P2：新規追加）===== -->
+<section id="faq">
+  <div class="section-inner">
+    <h2 class="section-title">よくある質問</h2>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"本当に無料ですか？","acceptedAnswer":{"@type":"Answer","text":"はい、AI写真査定は完全無料です。結果をご覧いただくだけでも構いません。売却するかどうかはご自身のご判断にお任せします。無理な営業は一切行いません。"}},
+        {"@type":"Question","name":"写真だけで査定できますか？","acceptedAnswer":{"@type":"Answer","text":"はい、写真を送るだけでAIが参考価格を表示します。ただし、表示価格は参考価格（概算）です。正式な買取価格は現物確認後に決定いたします。"}},
+        {"@type":"Question","name":"表示された価格で必ず買取してもらえますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。表示価格はAIによる参考価格（概算）であり、正式な買取価格ではありません。実際の買取価格は現物確認・状態チェック・真贋確認後に決定いたします。"}},
+        {"@type":"Question","name":"なぜ価格が変動するのですか？","acceptedAnswer":{"@type":"Answer","text":"買取価格は、商品の状態・真贋・付属品の有無・型番・年式・市場相場・査定時点のタイミング等により変動します。AIは画像上の情報から推定するため、これらすべてを正確に反映することはできません。"}},
+        {"@type":"Question","name":"本物かどうか（真贋）もわかりますか？","acceptedAnswer":{"@type":"Answer","text":"画像のみでの真贋断定はできません。AIは画像上の印象から推定をお伝えすることはできますが、最終的な真贋判断は現物確認が必要です。"}},
+        {"@type":"Question","name":"何枚まで写真を送れますか？","acceptedAnswer":{"@type":"Answer","text":"1回の査定依頼につき最大5枚までアップロードできます。JPEG・PNG・WEBP対応、1枚あたり10MB以内です。"}},
+        {"@type":"Question","name":"個人情報や画像データは安全ですか？","acceptedAnswer":{"@type":"Answer","text":"アップロードいただいた画像・お名前・連絡先は、査定目的のみに使用します。第三者への提供・転用は行いません。画像データは一定期間後に削除いたします。"}},
+        {"@type":"Question","name":"傷や汚れがあっても査定できますか？","acceptedAnswer":{"@type":"Answer","text":"はい、傷や汚れがある商品でも査定いたします。状態は参考価格に影響しますが、まずはお気軽にお送りください。"}},
+        {"@type":"Question","name":"店舗への持込や出張買取はできますか？","acceptedAnswer":{"@type":"Answer","text":"はい、対応しております。まずはAI査定で参考価格をご確認いただき、その後お電話にてご相談ください。"}}
+      ]
+    }
+    </script>
+
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>本当に無料ですか？</summary>
+        <div class="faq-body">
+          <p>はい、AI写真査定は完全無料です。結果をご覧いただくだけでも構いません。売却するかどうかは、ご自身のペースでご判断ください。無理な営業は一切行いません。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>写真だけで査定できますか？</summary>
+        <div class="faq-body">
+          <p>はい、写真を送るだけでAIが参考価格を表示します。ただし、表示される価格は<strong>参考価格（概算）</strong>です。正式な買取価格は現物確認後に決定いたします。複数枚・様々な角度から撮影いただくと、より精度が上がります。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>表示された価格で必ず買取してもらえますか？</summary>
+        <div class="faq-body">
+          <p>いいえ。表示価格は<strong>AIによる参考価格（概算）であり、正式な買取価格ではありません。</strong>実際の買取価格は、現物確認・状態チェック・真贋確認後に決定いたします。参考価格と異なる場合がありますので、あらかじめご了承ください。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>なぜ価格が変動するのですか？</summary>
+        <div class="faq-body">
+          <p>買取価格は以下のような要因により変動します。</p>
+          <ul>
+            <li>商品の状態（傷・汚れ・動作状況）</li>
+            <li>真贋（本物かどうか）</li>
+            <li>付属品の有無（箱・保証書・コマ等）</li>
+            <li>型番・年式・素材</li>
+            <li>査定時点の市場相場</li>
+            <li>ブランドの需要・シーズン要因</li>
+          </ul>
+          <p>AIは画像上の情報から推定するため、これらすべてを正確に反映することはできません。正確な価格は現物確認後にご案内いたします。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>本物かどうか（真贋）もわかりますか？</summary>
+        <div class="faq-body">
+          <p>画像のみでの真贋断定はできません。AIは画像上の印象から「本物の可能性が高い」「確認が必要」などの推定をお伝えすることはできますが、<strong>最終的な真贋判断は現物確認が必要</strong>です。正式査定の際に、専門スタッフが確認いたします。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>何枚まで写真を送れますか？</summary>
+        <div class="faq-body">
+          <p>1回の査定依頼につき最大5枚までアップロードできます。対応形式はJPEG・PNG・WEBPです。1枚あたりのファイルサイズは10MB以内でお願いします。複数枚送ることで、AIの推定精度が上がります。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>個人情報や画像データは安全ですか？</summary>
+        <div class="faq-body">
+          <p>アップロードいただいた画像・お名前・連絡先は、査定目的のみに使用します。第三者への提供・その他の目的への転用は行いません。画像データは一定期間後に削除いたします。詳細は<a href="/privacy-policy">プライバシーポリシー</a>をご確認ください。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>傷や汚れがあっても査定できますか？</summary>
+        <div class="faq-body">
+          <p>はい、傷や汚れがある商品でも査定いたします。状態は参考価格に影響しますが、まずはお気軽にお送りください。傷・汚れがある部分も写真に含めていただくと、より正確な推定が可能です。</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>店舗への持込や出張買取はできますか？</summary>
+        <div class="faq-body">
+          <p>はい、対応しております。まずはAI査定で参考価格をご確認いただき、その後お電話にてご相談ください。</p>
+          <a href="tel:03-6205-5608" class="faq-tel-link">📞 03-6205-5608（平日 9:00〜18:00）</a>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 注意事項（P1：新規追加）===== -->
+<section id="caution">
+  <div class="section-inner">
+    <h2 class="section-title caution-title">ご利用前に必ずお読みください</h2>
+    <div class="caution-box">
+      <div class="caution-item">
+        <strong>【参考価格について】</strong>
+        本サービスで表示する価格は、AIによる参考価格（概算）です。正式な買取価格ではありません。あくまで目安としてご参照ください。
+      </div>
+      <div class="caution-item">
+        <strong>【正式査定について】</strong>
+        正式な買取価格は、現物確認・状態チェック・真贋確認後に決定いたします。参考価格と異なる場合があります。あらかじめご了承ください。
+      </div>
+      <div class="caution-item">
+        <strong>【真贋について】</strong>
+        画像のみでの真贋断定はできません。真贋に関わる最終判断は、必ず現物確認が必要となります。
+      </div>
+      <div class="caution-item">
+        <strong>【価格変動について】</strong>
+        参考価格は、商品の状態・真贋・付属品の有無・型番・市場相場・査定時点のタイミング等により変動します。表示価格での買取を保証するものではありません。
+      </div>
+      <div class="caution-item">
+        <strong>【画像・個人情報の取り扱い】</strong>
+        アップロードいただいた画像・個人情報は、査定目的のみに使用します。第三者への提供は行いません。詳細は<a href="/privacy-policy">プライバシーポリシー</a>をご確認ください。
+      </div>
+      <div class="caution-item">
+        <strong>【免責事項】</strong>
+        本サービスの利用によって生じたいかなる損害についても、当社は責任を負いかねます。本サービスのご利用は<a href="/terms">利用規約</a>に同意したものとみなします。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 査定フォーム ===== -->
+<section id="assessment">
+  <div class="section-inner">
+    <h2 class="section-title">無料買取査定</h2>
+    <p class="section-sub">
+      商品の写真をアップロードしてください。AIが画像を分析し、参考価格（概算）をその場で表示します。<br>
+      <small style="color:var(--gray-400);">※表示価格はAIによる参考価格です。正式査定額ではありません。現物確認後に価格が変動します。</small>
+    </p>
+    <!-- エラーバナー（フォーム全体エラー時に表示） -->
+    <div id="form-error-banner" class="form-error-banner" role="alert" hidden>
+      <span id="form-error-text"></span>
+    </div>
+
+    <form class="assessment-form" id="assessment-form" novalidate>
+
+      <!-- 画像アップロード -->
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="images" name="images"
+               accept="image/jpeg,image/png,image/webp"
+               multiple hidden>
+        <label for="images" class="upload-label">
+          <span class="upload-icon">📷</span>
+          <span class="upload-text-main">商品の写真をここにドロップ<br>またはタップして選択</span>
+          <span class="upload-text-sub">JPEG・PNG・WEBP対応　最大5枚　1枚あたり10MB以内</span>
+        </label>
+        <div id="image-preview"></div>
+      </div>
+      <div id="err-images" class="field-error" hidden></div>
+
+      <!-- 撮影のコツ -->
+      <details class="shooting-tips">
+        <summary>📌 より精度が上がる撮影のコツ（タップして確認）</summary>
+        <ul>
+          <li>明るい場所・自然光での撮影をおすすめします</li>
+          <li>ブランドロゴ・刻印・型番が見える角度でも撮影してください</li>
+          <li>傷・汚れがある場合は、その部分もご撮影ください</li>
+          <li>付属品（箱・保証書・コマなど）がある場合は一緒に写してください</li>
+          <li>全体像と細部の両方を撮影いただくと精度が上がります</li>
+        </ul>
+      </details>
+
+      <!-- 入力フィールド -->
+      <div class="form-group">
+        <label for="name">お名前 <span class="required">必須</span></label>
+        <input type="text" id="name" name="name" placeholder="例：山田 太郎" autocomplete="name">
+        <div id="err-name" class="field-error" hidden></div>
+      </div>
+      <div class="form-group">
+        <label for="email">メールアドレス <span class="required">必須</span></label>
+        <input type="email" id="email" name="email" placeholder="例：sample@example.com" autocomplete="email">
+        <div id="err-email" class="field-error" hidden></div>
+      </div>
+      <div class="form-group">
+        <label for="tel-input">電話番号 <span class="optional">任意</span></label>
+        <input type="tel" id="tel-input" name="tel" placeholder="例：090-0000-0000" autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label for="item-name">商品名・わかること <span class="required">必須</span></label>
+        <input type="text" id="item-name" name="item_name" placeholder="例：ロレックス サブマリーナ（型番不明）">
+        <div id="err-item-name" class="field-error" hidden></div>
+      </div>
+      <div class="form-group">
+        <label for="detail">状態・付属品など <span class="optional">任意</span></label>
+        <textarea id="detail" name="detail" placeholder="例：全体的にきれいですが、リューズ付近に小傷あり。箱・保証書あり。"></textarea>
+      </div>
+
+      <!-- 同意 -->
+      <div class="form-agree">
+        <input type="checkbox" id="agree" name="agree">
+        <label for="agree">
+          <a href="/privacy-policy" target="_blank">プライバシーポリシー</a>および
+          <a href="/terms" target="_blank">利用規約</a>に同意します
+        </label>
+      </div>
+      <div id="err-agree" class="field-error" hidden></div>
+
+      <!-- 送信ボタン -->
+      <button type="submit" id="submit-btn" class="btn btn-primary" style="max-width:100%;">
+        <span id="submit-label">査定を依頼する（無料）</span>
+        <span id="submit-spinner" class="spinner" hidden></span>
+      </button>
+      <p class="form-submit-note">
+        ※AIが画像を分析し、参考価格を表示します。<br>
+        ※表示される価格は参考価格（概算）です。正式査定額ではありません。
+      </p>
+    </form>
+
+    <!-- ローディングオーバーレイ -->
+    <div id="loading-overlay" class="loading-overlay" hidden>
+      <div class="loading-box">
+        <div class="loading-ring"></div>
+        <p class="loading-text">AIが画像を分析中です…</p>
+        <p class="loading-sub">通常30秒〜1分程度かかります。<br>そのままお待ちください。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== AI査定結果（P3：モック実装）===== -->
+<section id="assessment-result" class="result-section" hidden>
+  <div class="section-inner">
+
+    <!-- 結果ヘッダー -->
+    <div class="result-header">
+      <div class="result-header-left">
+        <p class="result-eyebrow">AI参考査定結果</p>
+        <h2 class="result-title">参考価格が出ました</h2>
+      </div>
+      <div class="result-confidence-wrap">
+        <span class="result-confidence-label">推定精度</span>
+        <span id="result-confidence" class="result-confidence-badge"></span>
+      </div>
+    </div>
+
+    <!-- 参考価格ハイライト -->
+    <div class="result-price-highlight">
+      <p class="result-price-label">参考価格帯（AI概算）</p>
+      <p class="result-price-value" id="result-price"></p>
+      <p class="result-price-note">※正式査定額ではありません。現物確認後に価格が変動します。</p>
+    </div>
+
+    <!-- 商品情報グリッド -->
+    <div class="result-info-card">
+      <h3 class="result-card-title">商品情報（AIによる推定）</h3>
+      <div class="result-info-grid">
+        <div class="result-info-row">
+          <span class="result-info-key">商品カテゴリ</span>
+          <span class="result-info-val" id="result-category"></span>
+        </div>
+        <div class="result-info-row">
+          <span class="result-info-key">ブランド候補</span>
+          <span class="result-info-val" id="result-brand"></span>
+        </div>
+        <div class="result-info-row">
+          <span class="result-info-key">モデル候補</span>
+          <span class="result-info-val" id="result-model"></span>
+        </div>
+        <div class="result-info-row">
+          <span class="result-info-key">素材推定</span>
+          <span class="result-info-val" id="result-material"></span>
+        </div>
+        <div class="result-info-row">
+          <span class="result-info-key">状態評価</span>
+          <span class="result-info-val" id="result-condition"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 価格の根拠 -->
+    <div class="result-info-card">
+      <h3 class="result-card-title">参考価格の根拠</h3>
+      <p class="result-reasoning" id="result-reasoning"></p>
+    </div>
+
+    <!-- 価格変動要因 -->
+    <div class="result-info-card">
+      <h3 class="result-card-title">価格に影響する主な要因</h3>
+      <ul class="result-factors" id="result-factors"></ul>
+    </div>
+
+    <!-- 注意書き -->
+    <div class="result-disclaimer-box">
+      <p class="result-disclaimer-title">⚠️ ご確認ください</p>
+      <ul id="result-disclaimer-list" class="result-disclaimer-list"></ul>
+    </div>
+
+    <!-- 本査定CTA -->
+    <div class="result-cta-area">
+      <h3 class="result-cta-title">正式査定をご希望の方はこちら</h3>
+      <p class="result-cta-sub">
+        参考価格はあくまで目安です。正確な買取価格は現物確認後にご案内いたします。
+      </p>
+      <div class="result-cta-buttons">
+        <a href="tel:03-6205-5608" class="btn btn-primary">📞 今すぐ電話で正式査定を依頼する</a>
+        <a href="#assessment" class="btn btn-tel" id="retry-btn">別の商品を査定する</a>
+      </div>
+      <p class="result-cta-note">受付時間：平日 9:00〜18:00　／　査定フォームは24時間受付</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== 会社概要 ===== -->
+<section id="about">
+  <div class="section-inner">
+    <h2 class="section-title">会社概要</h2>
+    <table class="about-table">
+      <tr><th>会社名</th><td>株式会社H SEARCH</td></tr>
+      <tr><th>所在地</th><td>〒169-0051 東京都新宿区西早稲田1-8-12 アサヒパレス早稲田602号</td></tr>
+      <tr><th>電話番号</th><td><a href="tel:03-6205-5608" style="font-weight:700;">03-6205-5608</a></td></tr>
+      <tr><th>FAX</th><td>050-3588-1447</td></tr>
+      <tr><th>代表者</th><td>加藤雅宏</td></tr>
+      <tr><th>設立</th><td>令和4年2月22日</td></tr>
+      <tr><th>認可</th><td>東京都知事(1)第108452号<br>社団法人全日本不動産協会<br>社団法人不動産保証協会</td></tr>
+      <tr><th>古物商<br>許可証</th><td><strong>第304372421862号</strong><br>交付：令和6年12月10日<br>東京都公安委員会</td></tr>
+      <tr><th>事業内容</th><td>不動産の売買、交換、賃貸、管理及びこれらの仲介<br>古物品のリユース事業</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== お問合せ ===== -->
+<section id="contact">
+  <div class="section-inner">
+    <h2 class="section-title">お問合せ</h2>
+    <p class="section-sub">ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="icon">📞</div>
+        <h3>お電話でのお問合せ</h3>
+        <a href="tel:03-6205-5608" class="contact-tel-link">03-6205-5608</a>
+        <p class="contact-hours">受付時間：平日 9:00〜18:00</p>
+      </div>
+      <div class="contact-card">
+        <div class="icon">📋</div>
+        <h3>メール・フォームでのお問合せ</h3>
+        <p style="font-size:14px; color:var(--gray-600); margin: 12px 0;">24時間受付中</p>
+        <a href="#assessment" class="btn btn-primary btn-sm">査定フォームへ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== 最終CTA（P2：新規追加）===== -->
+<section id="final-cta">
+  <div class="section-inner">
+    <h2 class="section-title" style="text-align:center;">本査定・買取のご依頼はこちら</h2>
+    <p class="final-cta-sub">
+      参考価格をご確認いただいたら、次は正式査定へ。<br>
+      AI査定フォーム・お電話から、お気軽にご相談ください。<br>
+      売るかどうかはご確認後にゆっくりお決めいただけます。
+    </p>
+
+    <div class="final-cta-grid">
+
+      <div class="final-cta-card">
+        <div class="cta-icon">📷</div>
+        <h3>AI写真査定</h3>
+        <a href="#assessment" class="btn btn-primary btn-sm">写真で参考価格を確認する</a>
+        <p style="font-size:12px; color:var(--gray-400); margin-top:10px;">無料・24時間受付</p>
+      </div>
+
+      <div class="final-cta-card">
+        <div class="cta-icon">📞</div>
+        <h3>お電話で相談</h3>
+        <a href="tel:03-6205-5608" class="btn btn-tel btn-sm">03-6205-5608</a>
+        <p style="font-size:12px; color:var(--gray-400); margin-top:10px;">平日 9:00〜18:00</p>
+      </div>
+
+      <div class="final-cta-card">
+        <div class="cta-icon">📋</div>
+        <h3>フォームで相談</h3>
+        <a href="#assessment" class="btn btn-ghost btn-sm">査定フォームへ</a>
+        <p style="font-size:12px; color:var(--gray-400); margin-top:10px;">24時間受付中</p>
+      </div>
+
+    </div>
+
+    <p class="final-cta-note">
+      出張買取・店頭持込もご相談ください。<br>
+      <!-- LINE開通後に追加：LINEでの相談も承っております -->
+    </p>
+  </div>
+</section>
+
+<!-- ===== フッター（P1：全面差し替え）===== -->
+<footer id="site-footer">
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <img src="https://hsearchreuse-dwkuhjum.manus.space/images/hsearch-logo.webp" alt="H SEARCH">
+      <p class="footer-tagline">
+        写真を送るだけで参考価格がわかる<br>
+        AI写真査定サービス
+      </p>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-nav-col">
+        <h4>サービス</h4>
+        <ul>
+          <li><a href="#assessment">AI写真査定（無料）</a></li>
+          <li><a href="#how-to-use">ご利用の流れ</a></li>
+          <li><a href="#items">対応ジャンル</a></li>
+          <li><a href="#faq">よくある質問</a></li>
+          <li><a href="#about">会社概要</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <h4>会社情報・法務</h4>
+        <ul>
+          <li><a href="#contact">お問合せ</a></li>
+          <li><a href="/privacy-policy">プライバシーポリシー</a></li>
+          <li><a href="/terms">利用規約</a></li>
+          <!-- 特定商取引法：当社は主に買取事業者のため現時点では表記義務なし。
+               将来的に消費者への販売事業を行う場合は /tokushoho を作成のうえ追加すること。 -->
+        </ul>
+      </div>
+      <div class="footer-nav-col">
+        <h4>お問合せ</h4>
+        <ul>
+          <li><a href="tel:03-6205-5608">📞 03-6205-5608</a></li>
+          <li><span style="font-size:13px; color:rgba(255,255,255,0.4);">平日 9:00〜18:00</span></li>
+          <!-- LINE：URL確定後に a href="[LINE公式URL]" に差し替え -->
+          <li><span style="font-size:14px; color:rgba(255,255,255,0.35);">💬 LINE査定（準備中）</span></li>
+          <li><a href="#assessment">📋 査定フォーム（24時間受付）</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-company">
+      <p class="company-name">株式会社H SEARCH</p>
+      <p>〒169-0051 東京都新宿区西早稲田1-8-12 アサヒパレス早稲田602号</p>
+      <p>古物商許可証番号：第304372421862号（東京都公安委員会）</p>
+      <p>古物商許可交付：令和6年12月10日</p>
+    </div>
+
+    <div class="footer-disclaimer">
+      本サービスで表示する価格はAIによる参考価格（概算）であり、正式な買取価格ではありません。実際の買取価格は現物確認・状態・真贋・市場相場等により変動します。買取を保証するものではありません。
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 株式会社H SEARCH. All rights reserved.</p>
+      <div class="footer-legal-links">
+        <a href="/privacy-policy">プライバシーポリシー</a>
+        <a href="/terms">利用規約</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- スクロールバックボタン -->
+<a href="#" class="back-to-top" id="back-to-top" aria-label="ページトップへ">↑</a>
+
+<script>
+  // ハンバーガーメニュー
+  const btn = document.getElementById('hamburger-btn');
+  const drawer = document.getElementById('drawer');
+  btn.addEventListener('click', () => {
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  });
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // 画像プレビュー
+  document.getElementById('images').addEventListener('change', function() {
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = '';
+    Array.from(this.files).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.cssText = 'width:80px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #e0e0e0;';
+        preview.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // ドラッグ&ドロップ
+  const zone = document.getElementById('upload-zone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = '#c8a96e'; });
+  zone.addEventListener('dragleave', () => { zone.style.borderColor = '#e8e8e8'; });
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.style.borderColor = '#e8e8e8';
+    document.getElementById('images').files = e.dataTransfer.files;
+    document.getElementById('images').dispatchEvent(new Event('change'));
+  });
+
+  // ============================================================
+  // AI査定 本番実装（Claude API連携版）
+  // ============================================================
+
+  // 価格フォーマット
+  function formatPrice(num) {
+    return new Intl.NumberFormat('ja-JP').format(num);
+  }
+
+  // フィールドエラー表示・非表示
+  function showFieldError(id, msg) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.hidden = false;
+    const prev = el.previousElementSibling;
+    if (prev && (prev.tagName === 'INPUT' || prev.tagName === 'TEXTAREA')) {
+      prev.classList.add('input-error');
+    }
+  }
+  function clearFieldError(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = '';
+    el.hidden = true;
+    const prev = el.previousElementSibling;
+    if (prev) prev.classList.remove('input-error');
+  }
+  function clearAllErrors() {
+    ['err-images','err-name','err-email','err-item-name','err-agree'].forEach(clearFieldError);
+    const banner = document.getElementById('form-error-banner');
+    if (banner) banner.hidden = true;
+  }
+  function showBannerError(msg) {
+    const banner = document.getElementById('form-error-banner');
+    const text   = document.getElementById('form-error-text');
+    if (!banner || !text) return;
+    text.textContent = msg;
+    banner.hidden = false;
+    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // ローディング表示制御
+  function setLoading(on) {
+    const btn     = document.getElementById('submit-btn');
+    const label   = document.getElementById('submit-label');
+    const spin    = document.getElementById('submit-spinner');
+    const overlay = document.getElementById('loading-overlay');
+    if (btn)     btn.disabled  = on;
+    if (label)   label.hidden  = on;
+    if (spin)    spin.hidden   = !on;
+    if (overlay) overlay.hidden = !on;
+  }
+
+  // 査定結果DOMへの反映
+  function renderResult(data) {
+    // 推定精度バッジ
+    const confLabel = { HIGH: '高', MEDIUM: '中', LOW: '低（参考程度）' };
+    const confClass = { HIGH: 'conf-high', MEDIUM: 'conf-mid', LOW: 'conf-low' };
+    const badge = document.getElementById('result-confidence');
+    if (badge) {
+      badge.textContent = confLabel[data.confidence] || '低';
+      badge.className   = 'result-confidence-badge ' + (confClass[data.confidence] || 'conf-low');
+    }
+
+    // 参考価格
+    const priceEl = document.getElementById('result-price');
+    if (priceEl) {
+      priceEl.textContent =
+        '¥' + formatPrice(data.price_min) + ' 〜 ¥' + formatPrice(data.price_max);
+    }
+
+    // 商品情報
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val || '—';
+    };
+    setVal('result-category',  data.category);
+    setVal('result-brand',     data.brand);
+    setVal('result-model',     data.model);
+    setVal('result-material',  data.material);
+    setVal('result-condition', data.condition);
+    setVal('result-reasoning', data.reasoning);
+
+    // 価格変動要因
+    const factorsEl = document.getElementById('result-factors');
+    if (factorsEl) {
+      factorsEl.innerHTML = '';
+      (data.factors || []).forEach(f => {
+        const li = document.createElement('li');
+        li.textContent = f;
+        factorsEl.appendChild(li);
+      });
+    }
+
+    // 注意書き（APIから返ってくるdisclaimerを使う、なければ固定文言）
+    const disclaimers = Array.isArray(data.disclaimer) && data.disclaimer.length > 0
+      ? data.disclaimer
+      : [
+          '本結果はAIによる参考価格（概算）です。正式な買取価格ではありません。',
+          '実際の買取価格は現物確認・状態チェック・真贋確認後に決定いたします。',
+          '画像のみでの真贋断定はできません。真贋の最終判断は現物確認が必要です。',
+          '市場相場・商品の状態・付属品の有無等により、参考価格は大きく変動します。',
+          '本結果を根拠とした取引・判断について、当社は責任を負いかねます。',
+        ];
+    const discList = document.getElementById('result-disclaimer-list');
+    if (discList) {
+      discList.innerHTML = '';
+      disclaimers.forEach(d => {
+        const li = document.createElement('li');
+        li.textContent = d;
+        discList.appendChild(li);
+      });
+    }
+
+    // フォールバック時の追加告知
+    if (data._fallback) {
+      const priceHighlight = document.querySelector('.result-price-highlight');
+      if (priceHighlight) {
+        const notice = document.createElement('p');
+        notice.className = 'result-fallback-note';
+        notice.textContent = '※ 今回は画像からの特定が難しかったため、広めの参考価格帯を表示しています。より鮮明な写真でお試しください。';
+        priceHighlight.appendChild(notice);
+      }
+    }
+
+    // 結果セクション表示 & スムーズスクロール
+    const resultSection = document.getElementById('assessment-result');
+    if (resultSection) {
+      resultSection.hidden = false;
+      setTimeout(() => {
+        resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+  }
+
+  // ファイルをbase64に変換（FileReaderを使用）
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = () => reject(new Error('ファイルの読み込みに失敗しました。'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Claude API呼び出し（フロントからサーバーエンドポイントへ）
+  async function callAssessmentAPI(files, itemName, detail) {
+    // FormDataで送信（画像はバイナリで送る。base64化はサーバー側で行う）
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append('images', file, file.name);
+    }
+    formData.append('item_name', itemName);
+    formData.append('detail',    detail);
+
+    const res = await fetch('/api/assessment', {
+      method: 'POST',
+      body:   formData,
+      // Content-Typeはmultipart/form-dataをブラウザが自動設定するので指定しない
+    });
+
+    // HTTPエラー処理
+    if (res.status === 429) {
+      const body = await res.json().catch(() => ({}));
+      const err  = new Error(body.message || 'アクセスが集中しています。少し時間をおいてお試しください。');
+      err.retry  = true;
+      throw err;
+    }
+
+    if (!res.ok && res.status !== 200) {
+      let errMsg = 'サーバーエラーが発生しました。しばらくお待ちのうえ再度お試しください。';
+      try {
+        const body = await res.json();
+        if (body.message) errMsg = body.message;
+      } catch (_) { /* ignore */ }
+      throw new Error(errMsg);
+    }
+
+    const data = await res.json();
+
+    // サーバー側でerror: trueを返している場合
+    if (data.error) {
+      throw new Error(data.message || '査定処理中にエラーが発生しました。');
+    }
+
+    return data;
+  }
+
+  // バリデーション
+  function validateForm() {
+    let valid = true;
+    clearAllErrors();
+
+    // 画像
+    const files = document.getElementById('images').files;
+    if (files.length === 0) {
+      showFieldError('err-images', '商品の写真を1枚以上アップロードしてください。');
+      valid = false;
+    } else if (files.length > 5) {
+      showFieldError('err-images', '写真は最大5枚までです。');
+      valid = false;
+    } else {
+      const ALLOWED = ['image/jpeg','image/jpg','image/png','image/webp'];
+      const MAX_SZ  = 10 * 1024 * 1024;
+      for (const f of files) {
+        const mime = f.type.toLowerCase();
+        if (!ALLOWED.includes(mime)) {
+          showFieldError('err-images', 'JPEG・PNG・WEBPのみ対応しています。');
+          valid = false;
+          break;
+        }
+        if (f.size > MAX_SZ) {
+          showFieldError('err-images', '1枚あたり10MB以内でアップロードしてください。');
+          valid = false; break;
+        }
+      }
+    }
+
+    // お名前
+    if (!document.getElementById('name').value.trim()) {
+      showFieldError('err-name', 'お名前を入力してください。');
+      valid = false;
+    }
+
+    // メール
+    const email    = document.getElementById('email').value.trim();
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      showFieldError('err-email', 'メールアドレスを入力してください。');
+      valid = false;
+    } else if (!emailReg.test(email)) {
+      showFieldError('err-email', 'メールアドレスの形式が正しくありません。');
+      valid = false;
+    }
+
+    // 商品名
+    if (!document.getElementById('item-name').value.trim()) {
+      showFieldError('err-item-name', '商品名・わかることを入力してください。');
+      valid = false;
+    }
+
+    // 同意
+    if (!document.getElementById('agree').checked) {
+      showFieldError('err-agree', 'プライバシーポリシーおよび利用規約への同意が必要です。');
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  // フォーム送信ハンドラ
+  document.getElementById('assessment-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      const firstErr = document.querySelector('.field-error:not([hidden])');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const files    = document.getElementById('images').files;
+    const itemName = document.getElementById('item-name').value.trim();
+    const detail   = document.getElementById('detail').value.trim();
+
+    setLoading(true);
+    document.getElementById('assessment-result').hidden = true;
+
+    try {
+      const data = await callAssessmentAPI(files, itemName, detail);
+      setLoading(false);
+      renderResult(data);
+    } catch (err) {
+      setLoading(false);
+      const msg = err.message ||
+        '申し訳ございません。査定処理中にエラーが発生しました。別の写真でお試しいただくか、お電話にてご相談ください。';
+      showBannerError(msg);
+    }
+  });
+
+  // 「別の商品を査定する」ボタン
+  document.getElementById('retry-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('assessment-result').hidden = true;
+    document.getElementById('assessment-form').reset();
+    document.getElementById('image-preview').innerHTML = '';
+    clearAllErrors();
+    // フォールバック通知のクリーンアップ
+    const notice = document.querySelector('.result-price-highlight .result-fallback-note');
+    if (notice) notice.remove();
+    document.getElementById('assessment').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // スクロールトップボタン
+
+    // スクロールトップボタン
+  const topBtn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    topBtn.classList.toggle('show', window.scrollY > 600);
+  });
+  topBtn.addEventListener('click', e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // スマホでのナビ非表示時に電話番号テキストを非表示
+  function adjustHeader() {
+    const num = document.querySelector('.header-tel-link .num');
+    if (num) num.style.display = window.innerWidth < 480 ? 'none' : '';
+  }
+  adjustHeader();
+  window.addEventListener('resize', adjustHeader);
+</script>
+</body>
+</html>
